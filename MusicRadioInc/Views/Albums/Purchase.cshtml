@@ -1,0 +1,41 @@
+﻿@model MusicRadioInc.ViewModels.AlbumPurchaseViewModel
+
+@{
+    ViewBag.Title = "Purchase";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Resumen de Compra</h2>
+
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <h3>Album:</h3>
+                <h3><strong>@Model.Album.Name</strong></h3>
+                <ul>
+                    @foreach (var song in Model.Songs)
+                    {
+                        <li>@song.Name</li>
+                    }
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h3>Información del Cliente:</h3>
+                <p><strong>Nombre: </strong>@Model.Client.Name</p>
+                <p><strong>Dirección: </strong>@Model.Client.Direction</p>
+                <p><strong>Teléfono: </strong>@Model.Client.Phone</p>
+                <p><strong>Email: </strong>@Model.Client.Mail</p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<br />
+@using (Html.BeginForm("PurchaseConfirm", "Albums", new { id = Model.Album.Id}, FormMethod.Post))
+{
+    <button class="btn btn-primary" type="submit">Ordenar</button>
+}
+

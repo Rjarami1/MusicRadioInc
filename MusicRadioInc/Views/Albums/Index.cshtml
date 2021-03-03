@@ -1,0 +1,80 @@
+﻿@model IEnumerable<MusicRadioInc.ViewModels.AlbumViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewBag.OrderPlaced)
+{
+    <div class="alert alert-success" role="alert">Orden creada con éxito!</div>
+}
+
+<h2>Albumes</h2>
+
+@using (Html.BeginForm("Index", "Albums", FormMethod.Get, new { @class = "form-inline" }))
+{
+    <div class="form-group">
+        <label>Nombre del Album:</label>
+        <input type="text" name="albumString" class="form-control input-sm" />
+        &nbsp;
+    </div>
+    <div class="form-group">
+        <label>Nombre de Pista:</label>
+        <input type="text" name="songString" class="form-control input-sm" />
+        &nbsp;
+    </div>
+
+    <button type="submit" class="btn btn-default btn-sm">Filtrar</button>
+}
+
+@if (Model.Count() == 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Resultados:</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>No se encuentran Albumes.</td>
+            </tr>
+        </tbody>
+    </table>
+}
+else
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Resultados:</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var album in Model)
+            {
+                <tr>
+                    <td>
+                        <strong>@album.Album.Name</strong>
+                        <p>Canciones:</p>
+                        <ul>
+                            @foreach (var song in album.SongList)
+                            {
+                                <li>@song.Name</li>
+                            }
+                        </ul>
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("Purchase", "Albums", new { id = album.Album.Id }))
+                        {
+                            <button type="submit" class="btn btn-primary">Comprar</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
